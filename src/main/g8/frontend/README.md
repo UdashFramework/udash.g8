@@ -30,8 +30,8 @@ Read more about server notifications in [Udash Guide](http://guide.udash.io/#/rp
 
 A Udash application is based on states. The application state describes the created `ViewFactories`
 structure and is determined by a URL. The URL is resolved to a `RoutingState` on every change. 
-States usually will create a nested hierarchy. This hierarchy describes nesting of views. 
-With `ContainerState` and `FinalState` you can express place of the state in the hierarchy.
+States tend to form a nested hierarchy.  With `ContainerState` and `FinalState` you can express 
+the place of a state in the hierarchy.
 
 In `RoutingRegistryDef` you have to assign URLs to one of the application states. 
 `StatesToViewFactoryDef` resolves `ViewFactory` based on the provided `State`, it's also a good place
