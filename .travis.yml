@@ -1,7 +1,19 @@
+sudo: required
+dist: trusty
+
+addons:
+  chrome: stable
+
 language: scala
 
 jdk:
   - oraclejdk8
 
+before_script:
+  # Install Selenium chromedriver
+  - wget http://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip -d selenium-bin
+  - export PATH=$PWD/selenium-bin:$PATH
+
 script:
-  - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M test
+  - sbt -Dfile.encoding=UTF8 g8Test
