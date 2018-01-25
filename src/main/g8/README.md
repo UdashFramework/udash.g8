@@ -43,7 +43,7 @@ and go to the chat window.
 
 On the chat view you can type, send and read messages. You should try to open another browser window and 
 check that messages and connections count refresh automatically. Server notifies authenticated clients
-about these events via []Server -> Client RPC](http://guide.udash.io/#/rpc/server-client) notification. 
+about these events via [Server -> Client RPC](http://guide.udash.io/#/rpc/server-client) notification. 
 On every login you receive a random set of permissions, so sometimes you might not be able to 
 send or read messages.   
 
