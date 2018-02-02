@@ -4,8 +4,8 @@ import com.avsystem.commons.serialization.HasGenCodec
 import io.udash.rpc.serialization.DefaultExceptionCodecRegistry
 
 /**
-  * Exceptions registry with codecs for custom exceptions.
-  * It allows RPC to transport exceptions from the server to the client as a request result.
+  * Exception registry providing codecs for custom exceptions.
+  * It enables the RPC to transport exceptions from the server to the client as a request result.
   */
 class SharedExceptions extends DefaultExceptionCodecRegistry {
   import $package$.shared.model.SharedExceptions._

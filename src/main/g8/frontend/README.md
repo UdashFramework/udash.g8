@@ -17,7 +17,7 @@ Read more about bootstrapping the frontend application in [Udash Guide](http://g
 ## Services
 
 The services keep separated the business logic of the client's application from the rest of the code. 
-`UserContextService` holds an active `UserContext` and provides access to the `SecuredRPC` with 
+`UserContextService` holds an active `UserContext` and provides access to the `SecureRPC` with 
 a current `UserToken`. `TranslationsService` keeps entities responsible for translations: 
 `TranslationProvider` and `LangProperty` (more about i18n in [Udash Guide](http://guide.udash.io/#/ext/i18n)). 
 `RPCService` implements the `MainClientRPC` interface and is responsible for handling notifications from the server.

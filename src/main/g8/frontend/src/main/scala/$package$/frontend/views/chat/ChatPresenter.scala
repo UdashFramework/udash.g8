@@ -7,7 +7,7 @@ import $package$.frontend.services.UserContextService
 import $package$.frontend.services.rpc.NotificationsCenter
 import $package$.shared.model.auth.Permission
 import $package$.shared.model.chat.ChatMessage
-import $package$.shared.rpc.server.secured.chat.ChatRPC
+import $package$.shared.rpc.server.secure.chat.ChatRPC
 import io.udash._
 import io.udash.auth.AuthRequires
 

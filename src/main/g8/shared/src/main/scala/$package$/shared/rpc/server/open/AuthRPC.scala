@@ -8,7 +8,7 @@ import scala.concurrent.Future
 @RPC
 trait AuthRPC {
   /** Verifies provided username and password.
-    * Returns UserContext if provided data is valid. */
+    * Returns a UserContext if provided data is valid. */
   def login(username: String, password: String): Future[UserContext]
 }
 

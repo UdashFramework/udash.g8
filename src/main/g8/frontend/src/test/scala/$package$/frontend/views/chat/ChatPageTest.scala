@@ -8,7 +8,7 @@ import $package$.frontend.services.rpc.NotificationsCenter
 import $package$.shared.model.auth.{Permission, UserContext, UserToken}
 import $package$.shared.model.chat.ChatMessage
 import $package$.shared.model.SharedExceptions
-import $package$.shared.rpc.server.secured.chat.ChatRPC
+import $package$.shared.rpc.server.secure.chat.ChatRPC
 import io.udash.properties.model.ModelProperty
 import io.udash.utils.Registration
 import org.scalamock.scalatest.AsyncMockFactory
