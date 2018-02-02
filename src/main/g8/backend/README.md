@@ -35,26 +35,26 @@ The application configuration is separated into three files:
 * `beans.conf` - the main configuration file which contains web server bean definition.
 * `services.conf` - definition of services beans.
 
-As you can see in the `Launcher` object, it loads configuration from `beans.conf` and starts `ApplicationServer`. 
+As you can see, the `Launcher` object loads configuration from `beans.conf` and starts `ApplicationServer`. 
 The `ApplicationServer` class creates two servlets: the first serves static files like compiled JS or CSS sources, 
 the second is responsible for handling WebSocket connections from the client applications. The aforementioned 
-servlets are registered in a [Jetty](https://www.eclipse.org/jetty/) server. 
+servlets are registered in the [Jetty](https://www.eclipse.org/jetty/) server. 
 
-Read more about bootstrapping the backend application in [Udash Guide](http://guide.udash.io/#/bootstrapping/backend).
+Read more about bootstrapping the backend application in the [Udash Guide](http://guide.udash.io/#/bootstrapping/backend).
 
 ## CSS
 
-As mentioned in the `shared` module's README, the styles definitions are not compiled into JavaScript code. 
-You have to render it with the JVM code and serve as static file - it makes the client's JavaScript source 
+As mentioned in the `shared` module's README, the style definitions are not compiled into JavaScript code. 
+You should render them on the JVM side and serve as a static file - it makes the client's JavaScript source 
 much smaller and faster.  
 
-The class `CssRenderer` is started from the `compileCss` SBT task. You don't have to restart application server
+The class `CssRenderer` is started from the `compileCss` SBT task. You don't have to restart the application server
 to refresh them, just run `sbt compileCss` (or `compileStatics` which depends on `compileCss`) 
 and refresh the page in the browser. 
 
-Read more about Udash CSS in [Udash Guide](http://guide.udash.io/#/frontend/templates).
+Read more about Udash CSS in the [Udash Guide](http://guide.udash.io/#/frontend/templates).
 
 ## What's next?
 
-Now you are familiar with the `backend` module. It's time to take a look at the client application in the 
+You are now familiar with the `backend` module. It's time to take a look at the client application in the 
 `frontend` module.
