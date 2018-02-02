@@ -5,7 +5,7 @@ import $package$.shared.model.SharedExceptions
 import org.scalamock.scalatest.AsyncMockFactory
 import $package$.shared.rpc.server.MainServerRPC
 import $package$.shared.rpc.server.open.AuthRPC
-import $package$.shared.rpc.server.secured.SecuredRPC
+import $package$.shared.rpc.server.secure.SecureRPC
 import org.scalatest.{AsyncWordSpec, Matchers}
 
 import scala.concurrent.Future
@@ -35,7 +35,7 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
       }
     }
 
-    "expose API of secured RPC interface with filled UserToken" in {
+    "expose API of secure RPC interface with filled UserToken" in {
       val ctx = UserContext(UserToken("t"), "u", Set.empty)
 
       val authRpcMock = mock[AuthRPC]
@@ -43,16 +43,16 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
 
       val rpcMock = mock[MainServerRPC]
       (rpcMock.auth _: () => AuthRPC).expects().anyNumberOfTimes().returning(authRpcMock)
-      (rpcMock.secured _).expects(ctx.token).once().returning(mock[SecuredRPC])
+      (rpcMock.secure _).expects(ctx.token).once().returning(mock[SecureRPC])
 
       val service: UserContextService = new UserContextService(rpcMock)
 
-      service.securedRpc().isEmpty should be(true)
+      service.secureRpc().isEmpty should be(true)
 
       for {
         _ <- service.login(ctx.name, "p")
       } yield {
-        service.securedRpc() shouldNot be(null)
+        service.secureRpc() shouldNot be(null)
       }
     }
 
@@ -64,18 +64,18 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
 
       val rpcMock = mock[MainServerRPC]
       (rpcMock.auth _: () => AuthRPC).expects().anyNumberOfTimes().returning(authRpcMock)
-      (rpcMock.secured _).expects(ctx.token).once().returning(mock[SecuredRPC])
+      (rpcMock.secure _).expects(ctx.token).once().returning(mock[SecureRPC])
 
       val service: UserContextService = new UserContextService(rpcMock)
 
-      service.securedRpc().isEmpty should be(true)
+      service.secureRpc().isEmpty should be(true)
 
       for {
         _ <- service.login(ctx.name, "p")
         _ <- service.login(ctx.name, "p2")
         _ <- service.login(ctx.name, "p3")
       } yield {
-        service.securedRpc() shouldNot be(null)
+        service.secureRpc() shouldNot be(null)
       }
     }
   }

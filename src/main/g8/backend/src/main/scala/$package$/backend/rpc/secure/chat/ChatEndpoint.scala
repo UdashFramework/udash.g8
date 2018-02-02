@@ -1,9 +1,9 @@
-package $package$.backend.rpc.secured.chat
+package $package$.backend.rpc.secure.chat
 
 import $package$.backend.services.{ChatService, RpcClientsService}
 import $package$.shared.model.auth.{Permission, UserContext}
 import $package$.shared.model.chat.ChatMessage
-import $package$.shared.rpc.server.secured.chat.ChatRPC
+import $package$.shared.rpc.server.secure.chat.ChatRPC
 import io.udash.auth._
 
 import scala.concurrent.Future

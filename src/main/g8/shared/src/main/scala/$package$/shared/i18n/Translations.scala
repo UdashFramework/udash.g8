@@ -7,7 +7,8 @@ object Translations {
 
   /** The list of supported languages. */
   val langs = Seq("en", "pl")
-  /** The list of translation bundles in `backend` resources. */
+
+  /** The list of translation bundles available in the `backend` resources. */
   val bundlesNames = Seq("auth", "chat", "global")
 
   object Global {
@@ -26,7 +27,7 @@ object Translations {
   }
 
   object Chat {
-    // notice that this translation takes one Int argument
+    // notice that this translation takes a single Int argument
     val connections = key1[Int]("chat.connections")
     val inputPlaceholder = key("chat.input.placeholder")
   }

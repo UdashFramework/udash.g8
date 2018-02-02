@@ -3,11 +3,11 @@ package $package$.frontend.services
 import $package$.shared.model.auth.UserContext
 import $package$.shared.model.SharedExceptions
 import $package$.shared.rpc.server.MainServerRPC
-import $package$.shared.rpc.server.secured.SecuredRPC
+import $package$.shared.rpc.server.secure.SecureRPC
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/** Holds an active `UserContext` and provides access to the `SecuredRPC` with a current `UserToken`. */
+/** Holds an active `UserContext` and provides access to the `SecureRPC` with a current `UserToken`. */
 class UserContextService(rpc: MainServerRPC)(implicit ec: ExecutionContext) {
   private var userContext: Option[UserContext] = None
 
@@ -25,7 +25,7 @@ class UserContextService(rpc: MainServerRPC)(implicit ec: ExecutionContext) {
     }
   }
 
-  /** Provides access to SecuredRPC with current UserToken. */
-  def securedRpc(): Option[SecuredRPC] =
-    userContext.map(ctx => rpc.secured(ctx.token))
+  /** Provides access to SecureRPC with current UserToken. */
+  def secureRpc(): Option[SecureRPC] =
+    userContext.map(ctx => rpc.secure(ctx.token))
 }

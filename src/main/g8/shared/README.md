@@ -1,7 +1,7 @@
 # Shared (JVM/JS)
 
-The sources defined in this module are cross-compiled to Bytecode and JavaScript. The `backend` and `frontend`
-modules depend on this one, so everything you define here can be used in both the server and the client code.
+The sources defined in this module are cross-compiled to Java Bytecode and JavaScript. The `backend` and `frontend`
+modules depend on this one, so everything you define here can be used both in the server and the client code.
 
 You can find four main packages in the sources of this module:
 * `$package$.shared.css` - definition of application stylesheets.
@@ -37,39 +37,39 @@ You can find more details regarding translations in [Udash Guide](http://guide.u
 
 With Scala.js you can share your data model classes between the client and the server application. In this case 
 we cross-compile classes describing user's context and permissions, chat message and exceptions used for RPC 
-calls failures.
+call failures.
 
-The `SharedExceptions` class extends `ExceptionCodecRegistry` - it provides `GenCodec`s for the shared exceptions, so
-these can be serialized and passed to the client as a result of the RPC call. 
+The `SharedExceptions` class extends `ExceptionCodecRegistry` provides `GenCodec`s for shared exceptions, so
+they can be serialized and passed to the client as a result of an RPC call. 
 
-Udash Guide describes [the auth utilities](http://guide.udash.io/#/ext/authorization) used in `UserContext` and 
-[the exceptions handling in RPC](http://guide.udash.io/#/rpc/client-server).
+The Udash Guide describes the [auth utilities](http://guide.udash.io/#/ext/authorization) provided via `UserContext` and 
+the [exception handling in RPC](http://guide.udash.io/#/rpc/client-server).
 
 ## RPC
 
-Interfaces are the most important part of the Udash RPC system. Thanks to the cross compilation, 
+Interfaces are the most important part of the Udash RPC system. Thanks to cross compilation, 
 they make client-server communication easy to develop and maintain. 
 
 You can find two types of RPC interfaces in Udash:
-* RPC - the RPC interface exposed by the server-side - `MainServerRPC`.
+* Server RPC - the RPC interface exposed by the server-side - `MainServerRPC`.
 * Client RPC - the RPC interface exposed by the client-side - `MainClientRPC`.
 
 Methods exposed by the RPC interface can be divided into three groups:
-* Calls - methods returning `Future[T]` where `T` is a serializable type (a client RPC interface cannot expose these methods).
-* Fires - methods with a return type `Unit`, there is no guarantee that your request will be received by a recipient.
-* Getters - methods returning another RPC interface, calling this method does not send anything over network.
+* **Calls** - methods returning `Future[T]` where `T` is a serializable type (a client RPC interface cannot expose these methods).
+* **Fires** - methods with a `Unit` return type, which are not guaranteed or acknowledged on delivery.
+* **Getters** - methods returning another RPC interface. Calling these does not send anything over the network.
 
-Both call and fire methods are asynchronous. Call will complete a returned Future when response is received. 
-Fire is a *fire&forget* method, there is no acknowledgement that the request reached its recipient.
+Both call and fire methods are asynchronous. Calls will complete the returned Future as soon as an response is received. 
+**Fire** is a *fire&forget* method, there is no acknowledgement that the request reached its recipient.
 
 The RPC system uses some macro-generated code. To keep the JavaScript code as small as possible and make compilation faster, 
-for each RPC interface create a companion object extending the `RPCCompanion` class from the RPC framework you use. 
-The RPC framework describes supported RPC methods and serialization methods. 
+create a companion object extending the `RPCCompanion` class from the RPC framework for each RPC interface you write. 
+The RPC framework describes supported RPC and serialization methods. 
 In this case we use `DefaultClientUdashRPCFramework` for the client interfaces and 
 `DefaultServerUdashRPCFramework` for the server API. 
 
-Read more about RPC interfaces in [Udash Guide](http://guide.udash.io/#/rpc/interfaces).
+Read more about RPC interfaces in the [Udash Guide](http://guide.udash.io/#/rpc/interfaces).
 
 ## What's next?
 
-Now you are familiar with the shared parts of code. It's time to take a look at the `backend` module.  
+You are now familiar with the shared parts of the code. It's time to take a look at the `backend` module.  
