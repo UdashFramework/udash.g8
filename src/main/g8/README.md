@@ -43,7 +43,7 @@ as described in the tooltip next to the "Username" field - credentials are defin
 and go to the chat window. 
 
 On the chat view you can type, send and read messages. You should try to open another browser window and 
-check that messages and connections counts refresh automatically. Server notifies authenticated clients
+check that messages and connection counts refresh automatically. Server notifies authenticated clients
 about these events via [Server -> Client RPC](http://guide.udash.io/#/rpc/server-client) notification. 
 You receive a random set of permissions on every login, so sometimes you might not be able to 
 send or read messages.   
@@ -62,18 +62,18 @@ to run the tests compiled to JavaScript in a web browser. Take a look at `browse
 it configures the tests to run on Google Chrome in headless mode. 
 Just make sure you have [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) installed.  
 
-This configuration employs [SBT Native Packager](https://github.com/sbt/sbt-native-packager) 
+This configuration employs the [SBT Native Packager](https://github.com/sbt/sbt-native-packager) 
 in the `packager` module to provide easy deployment process. In this module you can find a customized 
 application's configuration. With `sbt packager/universal:packageBin` you can create a zip archive with 
-your application and nice starting scripts. Take a look at the 
+your application and nice starting scripts. Check the 
 [SBT Native Packager](https://github.com/sbt/sbt-native-packager) docs for more details. 
 
 ## What's next?
 
-Look around the codebase. You can find more detailed READMEs inside each of the modules. 
-The code itself is also documented, so we hope you will understand it without an issue.
+Take a look around the codebase. You can find more detailed READMEs inside each of the modules. 
+The code itself is also documented, so we hope you understand it without an issue.
 We recommend to start from the `shared` module. 
 
-You should also take a look at [Udash Developers Guide](http://guide.udash.io/). 
+You should also take a look at the [Udash Developers Guide](http://guide.udash.io/). 
 If you have any questions, you can ask for help on our [Gitter channel](https://gitter.im/UdashFramework/udash-core).
 

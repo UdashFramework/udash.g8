@@ -20,7 +20,7 @@ class AuthService(usersData: JList[String]) {
 
   private val tokens: MMap[UserToken, UserContext] = MMap.empty
 
-  /** Tries to authenticated user with provided credentials. */
+  /** Tries to authenticate user with provided credentials. */
   def login(username: String, password: String): Future[UserContext] = Future {
     if (usersWithPasswords.contains(username) && usersWithPasswords(username) == password) {
       val token = UserToken(UUID.randomUUID().toString)
