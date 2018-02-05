@@ -154,7 +154,7 @@ lazy val packager = project
   .enablePlugins(JavaServerAppPackaging)
   .settings(commonSettings)
   .settings(
-    normalizedName := "bootstrapping-test",
+    normalizedName := "$name;format="normalize"$",
     Compile / mainClass := (backend / Compile / mainClass).value,
 
     // add frontend statics to the package
