@@ -24,6 +24,8 @@ object Translations {
 
     val userNotFound = key("auth.user_not_found")
     val info = key("auth.info")
+
+    val randomPermissionsInfo = key("auth.random_permissions")
   }
 
   object Chat {
