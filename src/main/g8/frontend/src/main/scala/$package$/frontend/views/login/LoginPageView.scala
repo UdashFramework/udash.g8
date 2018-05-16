@@ -67,6 +67,11 @@ class LoginPageView(
     block = true, componentId = ComponentId("login")
   )(translatedDynamic(Translations.Auth.submitButton)(_.apply()), tpe := "submit")
 
+  // Random permissions notice
+  private val permissionsNotice = UdashAlert.info(
+    translatedDynamic(Translations.Auth.randomPermissionsInfo)(_.apply())
+  )
+
   // disable button when data is invalid
   model.valid.streamTo(submitButton.disabled, initUpdate = true) {
     case Valid => false
@@ -76,9 +81,10 @@ class LoginPageView(
   def getTemplate: Modifier = div(
     LoginPageStyles.container,
 
-    showIf(model.subProp(_.errors).transform(_.nonEmpty)) {
-      errorsAlert.render
-    },
+    showIfElse(model.subProp(_.errors).transform(_.nonEmpty))(
+      errorsAlert.render,
+      permissionsNotice.render
+    ),
 
     UdashForm(
       (_: Event) => {
