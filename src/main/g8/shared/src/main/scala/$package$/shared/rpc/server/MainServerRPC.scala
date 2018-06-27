@@ -6,7 +6,6 @@ import $package$.shared.rpc.server.secure.SecureRPC
 import io.udash.i18n._
 import io.udash.rpc._
 
-@RPC
 trait MainServerRPC {
   /** Returns an RPC for authentication. */
   def auth(): AuthRPC

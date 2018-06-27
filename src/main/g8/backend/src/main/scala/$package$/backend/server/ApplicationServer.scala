@@ -9,8 +9,6 @@ import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.server.session.SessionHandler
 import org.eclipse.jetty.servlet.{DefaultServlet, ServletContextHandler, ServletHolder}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
 class ApplicationServer(val port: Int, resourceBase: String, domainServices: DomainServices) {
   private val server = new Server(port)
   private val contextHandler = new ServletContextHandler
@@ -27,7 +25,7 @@ class ApplicationServer(val port: Int, resourceBase: String, domainServices: Dom
   def stop(): Unit = server.stop()
 
   private def createAtmosphereHolder() = {
-    val config = new DefaultAtmosphereServiceConfig((clientId) =>
+    val config = new DefaultAtmosphereServiceConfig(clientId =>
       // interfaces are cached per user connection
       new DefaultExposesServerRPC[MainServerRPC](
         new ExposedRpcInterfaces()(domainServices, clientId)
