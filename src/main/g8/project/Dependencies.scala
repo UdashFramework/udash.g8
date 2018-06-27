@@ -1,4 +1,5 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
+import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import sbt._
 
 object Dependencies {
@@ -6,12 +7,12 @@ object Dependencies {
 
   // Udash
   val udashVersion = "$udash_version$"
-  val udashJQueryVersion = "1.1.0"
+  val udashJQueryVersion = "1.2.0"
 
   // Backend
-  val avsystemCommonsVersion = "1.25.6"
-  val jettyVersion = "9.4.8.v20171121"
-  val springVersion = "4.3.13.RELEASE"
+  val avsystemCommonsVersion = "1.28.1"
+  val jettyVersion = "9.4.11.v20180605"
+  val springVersion = "4.3.18.RELEASE"
   val logbackVersion = "1.2.3"
 
   // JS dependencies
@@ -19,8 +20,8 @@ object Dependencies {
   val highchartsVersion = "5.0.10"
 
   // Testing
-  val scalatestVersion = "3.0.4"
-  val scalamockVersion = "3.6.0"
+  val scalatestVersion = "3.0.5"
+  val scalamockVersion = "4.1.0"
 
   // Dependencies for both frontend and backend
   // Those have to be cross-compilable
@@ -97,6 +98,6 @@ object Dependencies {
   // Test dependencies
   val crossTestDeps = Def.setting(Seq(
     "org.scalatest" %%% "scalatest" % scalatestVersion,
-    "org.scalamock" %%% "scalamock-scalatest-support" % scalamockVersion
+    "org.scalamock" %%% "scalamock" % scalamockVersion
   ).map(_ % Test))
 }
