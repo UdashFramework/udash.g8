@@ -82,6 +82,7 @@ object Dependencies {
     "io.udash" %% "udash-css-backend" % udashVersion,
 
     "org.eclipse.jetty" % "jetty-server" % jettyVersion,
+    "org.eclipse.jetty" % "jetty-rewrite" % jettyVersion,
     "org.eclipse.jetty.websocket" % "websocket-server" % jettyVersion,
 
     "org.springframework" % "spring-core" % springVersion,
