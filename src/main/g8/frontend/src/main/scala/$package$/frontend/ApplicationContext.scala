@@ -7,7 +7,6 @@ import $package$.shared.model.SharedExceptions
 import $package$.shared.rpc.client.MainClientRPC
 import $package$.shared.rpc.server.MainServerRPC
 import io.udash._
-import io.udash.routing.WindowUrlPathChangeProvider
 import io.udash.rpc._
 
 object ApplicationContext {
