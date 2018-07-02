@@ -33,8 +33,7 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
   )
 
   // Standard Udash TextInput (we don't need Bootstrap Forms input wrapping)
-  private val msgInput = TextInput.debounced(
-    model.subProp(_.msgInput),
+  private val msgInput = TextInput(model.subProp(_.msgInput))(
     translatedAttrDynamic(Translations.Chat.inputPlaceholder, "placeholder")(_.apply())
   )
 

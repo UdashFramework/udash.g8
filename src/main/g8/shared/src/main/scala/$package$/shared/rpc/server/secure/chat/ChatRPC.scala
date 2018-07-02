@@ -5,7 +5,6 @@ import io.udash.rpc._
 
 import scala.concurrent.Future
 
-@RPC
 trait ChatRPC {
   /** Registers a new message on server. */
   def sendMsg(msg: String): Future[Unit]

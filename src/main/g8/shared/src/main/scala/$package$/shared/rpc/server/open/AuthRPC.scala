@@ -5,7 +5,6 @@ import io.udash.rpc._
 
 import scala.concurrent.Future
 
-@RPC
 trait AuthRPC {
   /** Verifies provided username and password.
     * Returns a UserContext if provided data is valid. */

@@ -2,6 +2,9 @@ import org.scalajs.jsenv.selenium.SeleniumJSEnv
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.remote.DesiredCapabilities
 
+// shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
 name := "$name;format="normalize"$"
 
 inThisBuild(Seq(
@@ -66,7 +69,7 @@ lazy val root = project.in(file("."))
     Compile / mainClass := Some("$package$.backend.Launcher")
   )
 
-lazy val shared = crossProject
+lazy val shared = crossProject(JSPlatform, JVMPlatform)
   .crossType(CrossType.Pure).in(file("shared"))
   .settings(commonSettings)
   .jsSettings(commonJSSettings)
