@@ -11,4 +11,4 @@ trait AuthRPC {
   def login(username: String, password: String): Future[UserContext]
 }
 
-object AuthRPC extends DefaultServerUdashRPCFramework.RPCCompanion[AuthRPC]
+object AuthRPC extends DefaultServerRpcCompanion[AuthRPC]

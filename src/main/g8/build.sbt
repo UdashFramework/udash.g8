@@ -1,9 +1,11 @@
 import org.scalajs.jsenv.selenium.SeleniumJSEnv
+import org.openqa.selenium.Capabilities
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.remote.DesiredCapabilities
 
 // shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
+Global / cancelable := true
 
 name := "$name;format="normalize"$"
 
@@ -38,15 +40,11 @@ val compileAndOptimizeStatics = taskKey[File](
 )
 
 // Settings for JS tests run in browser
-val browserCapabilities: DesiredCapabilities = {
+val browserCapabilities: Capabilities = {
   // requires ChromeDriver: https://sites.google.com/a/chromium.org/chromedriver/
-  val capabilities = DesiredCapabilities.chrome()
-  capabilities.setCapability(ChromeOptions.CAPABILITY, {
-    val options = new ChromeOptions()
-    options.addArguments("--headless", "--disable-gpu")
-    options
-  })
-  capabilities
+  val options = new ChromeOptions()
+  options.addArguments("--headless", "--disable-gpu")
+  options
 }
 
 // Reusable settings for all modules
@@ -140,7 +138,11 @@ lazy val frontend = project.in(file("frontend"))
         frontendWebContent / "scripts" / "frontend-deps.js",
     Compile / packageMinifiedJSDependencies / artifactPath :=
       (Compile / packageMinifiedJSDependencies / target).value /
-        frontendWebContent / "scripts" / "frontend-deps.js"
+        frontendWebContent / "scripts" / "frontend-deps.js",
+
+    // Workaround for source JS dependencies overwriting the minified ones - just use the latter all the time
+    skip in (Compile / packageJSDependencies) := true,
+    (Compile / fastOptJS) := (Compile / fastOptJS).dependsOn(Compile / packageMinifiedJSDependencies).value
   )
 
 lazy val backend = project.in(file("backend"))

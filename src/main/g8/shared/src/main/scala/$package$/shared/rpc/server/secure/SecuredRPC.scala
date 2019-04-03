@@ -7,4 +7,4 @@ trait SecureRPC {
   def chat(): ChatRPC
 }
 
-object SecureRPC extends DefaultServerUdashRPCFramework.RPCCompanion[SecureRPC]
+object SecureRPC extends DefaultServerRpcCompanion[SecureRPC]

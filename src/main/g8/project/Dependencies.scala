@@ -7,40 +7,40 @@ object Dependencies {
 
   // Udash
   val udashVersion = "$udash_version$"
-  val udashJQueryVersion = "1.2.0"
+  val udashJQueryVersion = "3.0.1"
 
   // Backend
-  val avsystemCommonsVersion = "1.28.1"
-  val jettyVersion = "9.4.11.v20180605"
-  val springVersion = "4.3.18.RELEASE"
+  val avsystemCommonsVersion = "1.34.16"
+  val jettyVersion = "9.4.15.v20190215"
+  val springVersion = "4.3.23.RELEASE"
   val logbackVersion = "1.2.3"
 
   // JS dependencies
   val bootstrapVersion = "3.3.7-1"
-  val highchartsVersion = "5.0.10"
+  val highchartsVersion = "5.0.14"
 
   // Testing
-  val scalatestVersion = "3.0.5"
+  val scalatestVersion = "3.0.7"
   val scalamockVersion = "4.1.0"
 
   // Dependencies for both frontend and backend
   // Those have to be cross-compilable
   val crossDeps = Def.setting(Seq(
-    "io.udash" %%% "udash-core-shared" % udashVersion,
-    "io.udash" %%% "udash-rpc-shared" % udashVersion,
-    "io.udash" %%% "udash-rest-shared" % udashVersion,
-    "io.udash" %%% "udash-i18n-shared" % udashVersion,
-    "io.udash" %%% "udash-css-shared" % udashVersion,
-    "io.udash" %%% "udash-auth-shared" % udashVersion,
+    "io.udash" %%% "udash-core" % udashVersion,
+    "io.udash" %%% "udash-rpc" % udashVersion,
+    "io.udash" %%% "udash-rest" % udashVersion,
+    "io.udash" %%% "udash-i18n" % udashVersion,
+    "io.udash" %%% "udash-css" % udashVersion,
+    "io.udash" %%% "udash-auth" % udashVersion,
   ))
 
   // Dependencies compiled to JavaScript code
   val frontendDeps = Def.setting(Seq(
-    "io.udash" %%% "udash-core-frontend" % udashVersion,
-    "io.udash" %%% "udash-rpc-frontend" % udashVersion,
-    "io.udash" %%% "udash-i18n-frontend" % udashVersion,
-    "io.udash" %%% "udash-css-frontend" % udashVersion,
-    "io.udash" %%% "udash-auth-frontend" % udashVersion,
+    "io.udash" %%% "udash-core" % udashVersion,
+    "io.udash" %%% "udash-rpc" % udashVersion,
+    "io.udash" %%% "udash-i18n" % udashVersion,
+    "io.udash" %%% "udash-css" % udashVersion,
+    "io.udash" %%% "udash-auth" % udashVersion,
 
     // type-safe wrapper for Twitter Bootstrap
     "io.udash" %%% "udash-bootstrap" % udashVersion,
@@ -76,10 +76,10 @@ object Dependencies {
 
   // Dependencies for JVM part of code
   val backendDeps = Def.setting(Seq(
-    "io.udash" %% "udash-rpc-backend" % udashVersion,
-    "io.udash" %% "udash-rest-backend" % udashVersion,
-    "io.udash" %% "udash-i18n-backend" % udashVersion,
-    "io.udash" %% "udash-css-backend" % udashVersion,
+    "io.udash" %% "udash-rpc" % udashVersion,
+    "io.udash" %% "udash-rest" % udashVersion,
+    "io.udash" %% "udash-i18n" % udashVersion,
+    "io.udash" %% "udash-css" % udashVersion,
 
     "org.eclipse.jetty" % "jetty-server" % jettyVersion,
     "org.eclipse.jetty" % "jetty-rewrite" % jettyVersion,

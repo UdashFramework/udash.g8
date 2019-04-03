@@ -16,4 +16,4 @@ trait ChatRPC {
   def connectedClientsCount(): Future[Int]
 }
 
-object ChatRPC extends DefaultServerUdashRPCFramework.RPCCompanion[ChatRPC]
+object ChatRPC extends DefaultServerRpcCompanion[ChatRPC]

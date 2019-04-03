@@ -4,7 +4,6 @@ import $package$.frontend.services.TranslationsService
 import $package$.shared.css.ChatStyles
 import $package$.shared.i18n.Translations
 import io.udash._
-import io.udash.bootstrap.UdashBootstrap.ComponentId
 import io.udash.bootstrap.button.{ButtonStyle, UdashButton}
 import io.udash.bootstrap.form.{UdashForm, UdashInputGroup}
 import io.udash.bootstrap.panel.UdashPanel
