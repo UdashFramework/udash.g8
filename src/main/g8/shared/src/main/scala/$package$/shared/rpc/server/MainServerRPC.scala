@@ -17,4 +17,4 @@ trait MainServerRPC {
   def translations(): RemoteTranslationRPC
 }
 
-object MainServerRPC extends DefaultServerUdashRPCFramework.RPCCompanion[MainServerRPC]
+object MainServerRPC extends DefaultServerRpcCompanion[MainServerRPC]

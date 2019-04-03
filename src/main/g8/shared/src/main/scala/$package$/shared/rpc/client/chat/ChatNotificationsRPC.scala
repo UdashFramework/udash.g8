@@ -11,4 +11,4 @@ trait ChatNotificationsRPC {
   def connectionsCountUpdate(count: Int): Unit
 }
 
-object ChatNotificationsRPC extends DefaultClientUdashRPCFramework.RPCCompanion[ChatNotificationsRPC]
+object ChatNotificationsRPC extends DefaultClientRpcCompanion[ChatNotificationsRPC]
