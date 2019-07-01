@@ -9,6 +9,7 @@ import io.udash.bootstrap.button.{ButtonStyle, UdashButton}
 import io.udash.bootstrap.form.UdashForm
 import io.udash.bootstrap.tooltip.UdashPopover
 import io.udash.bootstrap.utils.UdashIcons.FontAwesome
+import io.udash.component.ComponentId
 import io.udash.css._
 import io.udash.i18n._
 import org.scalajs.dom.raw.Event

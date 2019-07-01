@@ -8,6 +8,7 @@ import io.udash.bootstrap.button.{ButtonStyle, UdashButton}
 import io.udash.bootstrap.form.{UdashForm, UdashInputGroup}
 import io.udash.bootstrap.panel.UdashPanel
 import io.udash.bootstrap.utils.UdashIcons.FontAwesome
+import io.udash.component.ComponentId
 import io.udash.css._
 import io.udash.i18n._
 

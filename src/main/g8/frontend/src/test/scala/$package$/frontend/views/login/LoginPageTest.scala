@@ -22,7 +22,7 @@ class LoginPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       (userService.currentContext _).expects().returning(Some(UserContext(UserToken("t1"), "name", Set.empty)))
 
       val application = mock[MockableApplication]
-      (application.goTo _).expects(ChatState).once()
+      (application.goTo _).expects(ChatState, false).once()
 
       val model = ModelProperty(LoginPageModel("", "", false, Seq.empty))
       val presenter = new LoginPagePresenter(model, userService, application)
@@ -35,7 +35,7 @@ class LoginPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       (userService.login _).expects("u1", "p1").returning(Future.successful(UserContext(UserToken("t1"), "name", Set.empty)))
 
       val application = mock[MockableApplication]
-      (application.goTo _).expects(ChatState).once()
+      (application.goTo _).expects(ChatState, false).once()
 
       val model = ModelProperty(LoginPageModel("u1", "p1", false, Seq(TranslationKey.untranslatable("Bla"))))
       val presenter = new LoginPagePresenter(model, userService, application)

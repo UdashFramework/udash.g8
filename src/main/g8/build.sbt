@@ -2,12 +2,15 @@ import org.scalajs.jsenv.selenium.SeleniumJSEnv
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.chrome.ChromeOptions
 
-// shadow sbt-scalajs' crossProject and CrossType from Scala.js 0.6.x
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
-
 Global / cancelable := true
 
 name := "$name;format="normalize"$"
+
+// We need to generate slightly different structure for IntelliJ in order to better support ScalaJS cross projects.
+// idea.managed property is set by IntelliJ when running SBT (shell or import), idea.runid is set only for IntelliJ's
+// SBT shell. In order for this technique to work, you MUST NOT set the "Use the sbt shell for build and import"
+// option in IntelliJ's SBT settings.
+val forIdeaImport = System.getProperty("idea.managed", "false").toBoolean && System.getProperty("idea.runid") == null
 
 inThisBuild(Seq(
   version := "0.1.0-SNAPSHOT",
@@ -22,7 +25,10 @@ inThisBuild(Seq(
     "-language:dynamics",
     "-Xfuture",
     "-Xfatal-warnings",
-    "-Xlint:_,-missing-interpolator,-adapted-args"
+    "-Xlint:_,-missing-interpolator,-adapted-args",
+    "-Ybackend-parallelism", "4",
+    "-Ycache-plugin-class-loader:last-modified",
+    "-Ycache-macro-class-loader:last-modified",
   ),
 ))
 
@@ -42,66 +48,112 @@ val compileAndOptimizeStatics = taskKey[File](
 // Settings for JS tests run in browser
 val browserCapabilities: Capabilities = {
   // requires ChromeDriver: https://sites.google.com/a/chromium.org/chromedriver/
-  val options = new ChromeOptions()
-  options.addArguments("--headless", "--disable-gpu")
-  options
+  new ChromeOptions().setHeadless(true).addArguments("--disable-gpu")
 }
 
+val noPublishSettings = Seq(
+  skip in publish := true,
+  Compile / doc := (doc / target).value,
+)
+
 // Reusable settings for all modules
-val commonSettings = Seq(
+val commonSettings = noPublishSettings ++ Seq(
   moduleName := "$name;format="normalize"$-" + moduleName.value,
+  // Use separate directories for IDE and SBT targets
+  Compile / ideOutputDirectory := Some(target.value.getParentFile / "out/production"),
+  Test / ideOutputDirectory := Some(target.value.getParentFile / "out/test"),
+  Test / fork := true,
 )
 
 // Reusable settings for modules compiled to JS
-val commonJSSettings = Seq(
-  emitSourceMaps in Compile := true,
-  // enables scalajs-env-selenium plugin
+val commonJsSettings = commonSettings ++ Seq(
+  Compile / emitSourceMaps := true,
+  Test / parallelExecution := false,
+  Test / fork := false,
   Test / jsEnv := new SeleniumJSEnv(browserCapabilities),
+  scalacOptions += "-P:scalajs:sjsDefinedByDefault",
 )
 
+def sourceDirsSettings(baseMapper: File => File): Seq[Def.Setting[Seq[File]]] = {
+  def mkSourceDirs(base: File, scalaBinary: String, conf: String): Seq[File] = Seq(
+    base / "src" / conf / "scala",
+    base / "src" / conf / s"scala-\$scalaBinary",
+  )
+
+  def mkResourceDirs(base: File, conf: String): Seq[File] = Seq(
+    base / "src" / conf / "resources"
+  )
+  Seq(
+    Compile / unmanagedSourceDirectories ++=
+      mkSourceDirs(baseMapper(baseDirectory.value), scalaBinaryVersion.value, "main"),
+    Compile / unmanagedResourceDirectories ++=
+      mkResourceDirs(baseMapper(baseDirectory.value), "main"),
+    Test / unmanagedSourceDirectories ++=
+      mkSourceDirs(baseMapper(baseDirectory.value), scalaBinaryVersion.value, "test"),
+    Test / unmanagedResourceDirectories ++=
+      mkResourceDirs(baseMapper(baseDirectory.value), "test"),
+  )
+}
+
 lazy val root = project.in(file("."))
-  .aggregate(sharedJS, sharedJVM, frontend, backend, packager)
-  .dependsOn(backend)
+  .aggregate(`shared-js`, `shared`, frontend, backend, packager)
   .settings(
-    publishArtifact := false,
+    noPublishSettings,
     Compile / mainClass := Some("$package$.backend.Launcher")
   )
 
-lazy val shared = crossProject(JSPlatform, JVMPlatform)
-  .crossType(CrossType.Pure).in(file("shared"))
-  .settings(commonSettings)
-  .jsSettings(commonJSSettings)
+def jvmProject(proj: Project): Project = {
+  proj.settings(
+    commonSettings,
+    sourceDirsSettings(_ / "jvm"),
+  )
+}
+
+def jsProjectFor(jvmProj: Project, jsProj: Project): Project = {
+  jsProj.in(jvmProj.base / "js")
+    .enablePlugins(ScalaJSPlugin)
+    .configure(p => if (forIdeaImport) p.dependsOn(jvmProj) else p)
+    .settings(
+      commonJsSettings,
+
+      moduleName := jvmProj.id,
+      sourceDirsSettings(_.getParentFile),
+      // workaround for some cross-compilation problems in IntelliJ
+      libraryDependencies :=
+        (if (forIdeaImport) (jvmProj / libraryDependencies).value else Seq.empty) ++ libraryDependencies.value
+    )
+}
+
+lazy val shared = jvmProject(project).settings(
+    libraryDependencies ++= Dependencies.crossDeps.value,
+    libraryDependencies ++= Dependencies.crossTestDeps.value
+)
+
+lazy val `shared-js` = jsProjectFor(shared, project)
   .settings(
     libraryDependencies ++= Dependencies.crossDeps.value,
     libraryDependencies ++= Dependencies.crossTestDeps.value
   )
 
-lazy val sharedJVM = shared.jvm
-lazy val sharedJS = shared.js
-
 val frontendWebContent = "UdashStatics/WebContent"
 lazy val frontend = project.in(file("frontend"))
   .enablePlugins(ScalaJSPlugin) // enables Scala.js plugin in this module
-  .dependsOn(sharedJS % TestAndCompileDep)
-  .settings(commonSettings)
-  .settings(commonJSSettings)
+  .dependsOn(`shared-js` % TestAndCompileDep)
   .settings(
+    commonJsSettings,
     libraryDependencies ++= Dependencies.frontendDeps.value,
     jsDependencies ++= Dependencies.frontendJSDeps.value, // native JS dependencies
 
     // Make this module executable in JS
     Compile / mainClass := Some("$package$.frontend.JSLauncher"),
-    scalaJSUseMainModuleInitializer := true,
+    Compile / scalaJSUseMainModuleInitializer := true,
+    Test / scalaJSUseMainModuleInitializer := false,
 
     // Implementation of custom tasks defined above
     copyAssets := {
       IO.copyDirectory(
         sourceDirectory.value / "main/assets",
-        target.value / frontendWebContent / "assets"
-      )
-      IO.copyFile(
-        sourceDirectory.value / "main/assets/index.html",
-        target.value / frontendWebContent / "index.html"
+        target.value / frontendWebContent
       )
     },
 
@@ -146,7 +198,7 @@ lazy val frontend = project.in(file("frontend"))
   )
 
 lazy val backend = project.in(file("backend"))
-  .dependsOn(sharedJVM % TestAndCompileDep)
+  .dependsOn(shared % TestAndCompileDep)
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Dependencies.backendDeps.value,

@@ -16,7 +16,7 @@ object ApplicationContext {
   private val viewFactoryRegistry = new StatesToViewFactoryDef
 
   val application = new Application[RoutingState](
-    routingRegistry, viewFactoryRegistry, WindowUrlPathChangeProvider
+    routingRegistry, viewFactoryRegistry, new WindowUrlPathChangeProvider
   )
 
   application.onRoutingFailure {

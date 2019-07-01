@@ -7,6 +7,7 @@ import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bootstrap.button.{ButtonStyle, UdashButton}
 import io.udash.bootstrap.{BootstrapStyles, UdashBootstrap}
+import io.udash.component.ComponentId
 import io.udash.css.CssView
 import io.udash.i18n.Lang
 
