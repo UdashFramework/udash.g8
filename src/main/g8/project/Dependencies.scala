@@ -10,9 +10,9 @@ object Dependencies {
   val udashJQueryVersion = "3.0.1"
 
   // Backend
-  val avsystemCommonsVersion = "1.34.16"
-  val jettyVersion = "9.4.15.v20190215"
-  val springVersion = "4.3.23.RELEASE"
+  val avsystemCommonsVersion = "1.36.0"
+  val jettyVersion = "9.4.19.v20190610"
+  val springVersion = "4.3.24.RELEASE"
   val logbackVersion = "1.2.3"
 
   // JS dependencies
@@ -20,7 +20,7 @@ object Dependencies {
   val highchartsVersion = "5.0.14"
 
   // Testing
-  val scalatestVersion = "3.0.7"
+  val scalatestVersion = "3.0.8"
   val scalamockVersion = "4.1.0"
 
   // Dependencies for both frontend and backend
