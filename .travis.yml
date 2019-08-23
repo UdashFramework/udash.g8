@@ -7,7 +7,7 @@ addons:
 language: scala
 
 jdk:
-  - oraclejdk8
+  - openjdk11
 
 before_script:
   # Install Selenium chromedriver
