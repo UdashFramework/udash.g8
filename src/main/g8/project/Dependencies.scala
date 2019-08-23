@@ -10,9 +10,9 @@ object Dependencies {
   val udashJQueryVersion = "3.0.1"
 
   // Backend
-  val avsystemCommonsVersion = "1.36.0"
-  val jettyVersion = "9.4.19.v20190610"
-  val springVersion = "4.3.24.RELEASE"
+  val avsystemCommonsVersion = "1.39.0"
+  val jettyVersion = "9.4.20.v20190813"
+  val springVersion = "4.3.25.RELEASE"
   val logbackVersion = "1.2.3"
 
   // JS dependencies
