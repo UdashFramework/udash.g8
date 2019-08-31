@@ -9,7 +9,7 @@ the `application.conf` file from the `backend` module.
 You can create a universal production package with your application using the following command: 
 `sbt packager/universal:packageBin`. 
 Your package will be bundled in a ZIP archive in the `packager/target/universal` directory.
-Call the `bin/$name` starting script to start the application. Please note that resource access is dependent on the working directory, so you should run it exactly as above, from the directory containing `lib` and `UdashStatics` directories - otherwise the webserver won't find the assets (e.g. `index.html`).
+Call the `bin/$name$` starting script to start the application. Please note that resource access is dependent on the working directory, so you should run it exactly as above, from the directory containing `lib` and `UdashStatics` directories - otherwise the webserver won't find the assets (e.g. `index.html`).
 
 ## What's next?
 
