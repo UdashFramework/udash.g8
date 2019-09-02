@@ -20,5 +20,6 @@ script:
 
 jobs:
   include:
-    - if: branch = master
-      script: test $TRAVIS_PULL_REQUEST = "false" && sbt new UdashFramework/udash.g8
+    - stage: integration
+      if: branch = master
+      script: test $TRAVIS_PULL_REQUEST = "false" && yes "" | sbt new UdashFramework/udash.g8
