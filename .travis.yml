@@ -17,3 +17,8 @@ before_script:
 
 script:
   - sbt -Dfile.encoding=UTF8 g8Test
+
+jobs:
+  include:
+    - if: branch = master
+      env: test $TRAVIS_PULL_REQUEST = "false" && sbt new UdashFramework/udash.g8
