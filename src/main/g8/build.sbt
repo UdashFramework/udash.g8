@@ -99,7 +99,7 @@ lazy val root = project.in(file("."))
   .aggregate(`shared-js`, `shared`, frontend, backend, packager)
   .settings(
     noPublishSettings,
-    Compile / mainClass := Some("$package$.backend.Launcher")
+    Compile / run := (backend / Compile / run).evaluated,
   )
 
 def jvmProject(proj: Project): Project = {
