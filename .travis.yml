@@ -1,6 +1,3 @@
-sudo: required
-dist: trusty
-
 addons:
   chrome: stable
 
@@ -15,12 +12,7 @@ before_script:
   - unzip chromedriver_linux64.zip -d selenium-bin
   - export PATH=$PWD/selenium-bin:$PATH
 
-jobs:
-  include:
-    - stage: test
-      script: sbt -Dfile.encoding=UTF8 g8Test
-    - if: branch = master
-      script: test $TRAVIS_PULL_REQUEST = "false" && sbt new UdashFramework/udash.g8 < integration_input.txt
+script: sbt -Dfile.encoding=UTF8 g8Test
 
 before_cache:
   # Cleanup the cached directories to avoid unnecessary cache updates
