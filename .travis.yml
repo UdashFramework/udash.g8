@@ -15,11 +15,23 @@ before_script:
   - unzip chromedriver_linux64.zip -d selenium-bin
   - export PATH=$PWD/selenium-bin:$PATH
 
-script:
-  - sbt -Dfile.encoding=UTF8 g8Test
-
 jobs:
   include:
-    - stage: integration
-      if: branch = master
-      script: test $TRAVIS_PULL_REQUEST = "false" && yes "" | sbt new UdashFramework/udash.g8
+    - stage: test
+      script: sbt -Dfile.encoding=UTF8 g8Test
+    - if: branch = master
+      script: test $TRAVIS_PULL_REQUEST = "false" && sbt new UdashFramework/udash.g8 < integration_input.txt
+
+before_cache:
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - rm -fv $HOME/.ivy2/.sbt.ivy.lock
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
+
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.m2
+    - $HOME/.coursier/cache
+    - $HOME/.cache
+    - $HOME/.sbt
