@@ -22,7 +22,7 @@ class RootView(translationsService: TranslationsService) extends ContainerView w
 
   private def langChangeButton(lang: Lang): Modifier = {
     val btn = UdashButton(
-      buttonStyle = Color.Link.toProperty, componentId = ComponentId(s"lang-btn-${lang.lang}")
+      buttonStyle = Color.Link.toProperty, componentId = ComponentId(s"lang-btn-\${lang.lang}")
     )(_ => lang.lang.toUpperCase())
 
     btn.listen {
@@ -45,7 +45,7 @@ class RootView(translationsService: TranslationsService) extends ContainerView w
       GlobalStyles.floatRight,
       Translations.langs.map(v => langChangeButton(Lang(v)))
     ),
-    h1("My Udash Application", BootstrapStyles.Spacing.margin()),
+    h1("$name$", BootstrapStyles.Spacing.margin()),
     childViewContainer
   )
 }
