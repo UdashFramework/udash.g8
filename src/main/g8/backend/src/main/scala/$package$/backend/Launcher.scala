@@ -22,6 +22,7 @@ object Launcher extends CrossLogging {
     // wait for user input and then stop the server
     logger.info("Click `Enter` to close application...")
     StdIn.readLine()
+    logger.info("Stopping application")
     server.stop()
   }
 }
