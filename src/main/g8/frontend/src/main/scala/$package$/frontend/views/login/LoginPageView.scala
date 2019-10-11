@@ -1,8 +1,8 @@
-package io.company.app.frontend.views.login
+package $package$.frontend.views.login
 
-import io.company.app.frontend.services.TranslationsService
-import io.company.app.shared.css.LoginPageStyles
-import io.company.app.shared.i18n.Translations
+import $package$.frontend.services.TranslationsService
+import $package$.shared.css.LoginPageStyles
+import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bootstrap.alert.UdashAlert
 import io.udash.bootstrap.button.UdashButton

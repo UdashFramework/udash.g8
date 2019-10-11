@@ -1,9 +1,9 @@
-package io.company.app.frontend.views
+package $package$.frontend.views
 
-import io.company.app.frontend.routing.RootState
-import io.company.app.frontend.services.TranslationsService
-import io.company.app.shared.css.GlobalStyles
-import io.company.app.shared.i18n.Translations
+import $package$.frontend.routing.RootState
+import $package$.frontend.services.TranslationsService
+import $package$.shared.css.GlobalStyles
+import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bootstrap.button.UdashButton
 import io.udash.bootstrap.utils.BootstrapStyles.Color

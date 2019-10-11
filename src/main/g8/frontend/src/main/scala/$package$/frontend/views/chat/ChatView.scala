@@ -1,8 +1,8 @@
-package io.company.app.frontend.views.chat
+package $package$.frontend.views.chat
 
-import io.company.app.frontend.services.TranslationsService
-import io.company.app.shared.css.ChatStyles
-import io.company.app.shared.i18n.Translations
+import $package$.frontend.services.TranslationsService
+import $package$.shared.css.ChatStyles
+import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bindings.modifiers.Binding
 import io.udash.bootstrap.button.UdashButton
