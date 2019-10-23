@@ -4,9 +4,12 @@ import $package$.frontend.services.TranslationsService
 import $package$.shared.css.ChatStyles
 import $package$.shared.i18n.Translations
 import io.udash._
-import io.udash.bootstrap.button.{ButtonStyle, UdashButton}
+import io.udash.bindings.modifiers.Binding
+import io.udash.bootstrap.button.UdashButton
+import io.udash.bootstrap.card.UdashCard
+import io.udash.bootstrap.form.UdashForm.FormEvent
 import io.udash.bootstrap.form.{UdashForm, UdashInputGroup}
-import io.udash.bootstrap.panel.UdashPanel
+import io.udash.bootstrap.utils.BootstrapStyles.Color
 import io.udash.bootstrap.utils.UdashIcons.FontAwesome
 import io.udash.component.ComponentId
 import io.udash.css._
@@ -19,9 +22,9 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
 
   import scalatags.JsDom.all._
 
-  private val messagesWindow = div(
+  private def messagesWindow(nested: Binding.NestedInterceptor) = div(
     ChatStyles.messagesWindow,
-    repeat(model.subSeq(_.msgs)) { msgProperty =>
+    nested(repeat(model.subSeq(_.msgs)) { msgProperty =>
       val msg = msgProperty.get
       div(
         ChatStyles.msgContainer,
@@ -29,7 +32,7 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
         span(msg.text),
         span(ChatStyles.msgDate, msg.created.toString)
       ).render
-    }
+    })
   )
 
   // Standard Udash TextInput (we don't need Bootstrap Forms input wrapping)
@@ -39,38 +42,34 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
 
   // Button from Udash Bootstrap wrapper
   private val submitButton = UdashButton(
-    buttonStyle = ButtonStyle.Primary,
-    block = true, componentId = ComponentId("send")
-  )(span(FontAwesome.send), tpe := "submit")
+    buttonStyle = Color.Primary.toProperty,
+    block = true.toProperty, componentId = ComponentId("send")
+  )(_ => Seq(span(FontAwesome.Solid.paperPlane), tpe := "submit"))
 
-  private val msgForm = div(
-    UdashForm(
-      _ => {
-        presenter.sendMsg()
-        true // prevent default callback call
-      }
-    )(
-      componentId = ComponentId("msg-from"),
-
-      // disable form if user don't has write access
-      UdashForm.disabled(Property(!presenter.hasWriteAccess)) {
-        UdashInputGroup()(
-          UdashInputGroup.input(msgInput.render),
-          UdashInputGroup.buttons(submitButton.render)
-        ).render
-      }
-    ).render
+  private val msgForm = UdashForm(
+    componentId = ComponentId("msg-from"),
+  )(factory =>
+    factory.disabled(presenter.hasWriteAccess.toProperty.transform(!_))(nested =>
+      nested(UdashInputGroup()(
+        UdashInputGroup.input(msgInput.render),
+        UdashInputGroup.appendButton(submitButton)
+      ))
+    )
   )
 
+  msgForm.listen {
+    case FormEvent(_, FormEvent.EventType.Submit) => presenter.sendMsg()
+  }
+
+
   override def getTemplate: Modifier = div(
-    UdashPanel(componentId = ComponentId("chat-panel"))(
-      UdashPanel.heading(
-        produce(model.subProp(_.connectionsCount)) { count =>
-          span(translatedDynamic(Translations.Chat.connections)(_.apply(count))).render
-        }
-      ),
-      UdashPanel.body(messagesWindow),
-      UdashPanel.footer(msgForm)
-    ).render
+    UdashCard(componentId = ComponentId("chat-panel"))(factory => Seq(
+      factory.header(nested => nested(produce(model.subProp(_.connectionsCount)) { count =>
+        span(translatedDynamic(Translations.Chat.connections)(_.apply(count))).render
+      })),
+      factory.body(messagesWindow),
+      factory.footer(nested => nested(msgForm))
+    )
+    )
   )
 }
