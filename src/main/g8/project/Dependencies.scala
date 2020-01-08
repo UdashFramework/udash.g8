@@ -12,8 +12,8 @@ object Dependencies {
   // Backend
   val avsystemCommonsVersion = "1.39.0"
   val jettyVersion = "9.4.20.v20190813"
-  val springVersion = "4.3.25.RELEASE"
   val logbackVersion = "1.2.3"
+  val typesafeConfigVersion = "1.4.0"
 
   // JS dependencies
   val bootstrapVersion = "4.1.3"
@@ -85,12 +85,7 @@ object Dependencies {
     "org.eclipse.jetty" % "jetty-rewrite" % jettyVersion,
     "org.eclipse.jetty.websocket" % "websocket-server" % jettyVersion,
 
-    "org.springframework" % "spring-core" % springVersion,
-    "org.springframework" % "spring-beans" % springVersion,
-    "org.springframework" % "spring-context-support" % springVersion,
-
-    // support for HOCON beans configuration
-    "com.avsystem.commons" %% "commons-spring" % avsystemCommonsVersion,
+    "com.typesafe" % "config" % typesafeConfigVersion,
 
     // server logging backend
     "ch.qos.logback" % "logback-classic" % logbackVersion,
