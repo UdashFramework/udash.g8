@@ -50,6 +50,3 @@ object RpcClientsService {
     (target: ClientRPCTarget) => new DefaultClientRPC[MainClientRPC](target).get
   }
 }
-
-/** Class with default factory for Spring configuration. */
-private class SpringRpcClientsService() extends RpcClientsService(RpcClientsService.defaultSendToClientFactory)
