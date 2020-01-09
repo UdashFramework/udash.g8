@@ -10,7 +10,6 @@ object Dependencies {
   val udashJQueryVersion = "3.0.1"
 
   // Backend
-  val avsystemCommonsVersion = "1.39.0"
   val jettyVersion = "9.4.20.v20190813"
   val logbackVersion = "1.2.3"
   val typesafeConfigVersion = "1.4.0"

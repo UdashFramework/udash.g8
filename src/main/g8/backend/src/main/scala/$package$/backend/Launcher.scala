@@ -14,14 +14,10 @@ object Launcher extends CrossLogging {
     val startTime = System.nanoTime
 
     val config: Config = ConfigFactory.load()
-    val rpcClientsService: RpcClientsService = new RpcClientsService(RpcClientsService.defaultSendToClientFactory)
-    val authService: AuthService = new AuthService(config.getStringList("auth.users"))
-    val chatService: ChatService = new ChatService(rpcClientsService)
-    val server = new ApplicationServer(
-      config.getInt("server.port"),
-      config.getString("server.statics"),
-      new DomainServices()(authService, chatService, rpcClientsService)
-    )
+    implicit val rpcClientsService: RpcClientsService = new RpcClientsService(RpcClientsService.defaultSendToClientFactory)
+    implicit val authService: AuthService = new AuthService(config.getStringList("auth.users"))
+    implicit val chatService: ChatService = new ChatService(rpcClientsService)
+    val server = new ApplicationServer(config.getInt("server.port"), config.getString("server.statics"), new DomainServices)
     server.start()
 
     val duration: Long = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime - startTime)
