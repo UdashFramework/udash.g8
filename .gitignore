@@ -129,3 +129,6 @@ project/plugins/project/
 .worksheet
 
 !frontend/libs/*.jar
+
+.metals
+.vscode
