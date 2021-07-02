@@ -1,6 +1,6 @@
 A Giter8 template for Udash applications.
 
-[![Build Status](https://travis-ci.org/UdashFramework/udash.g8.svg?branch=master)](https://travis-ci.org/UdashFramework/udash.g8)
+![Build Status](https://github.com/UdashFramework/udash.g8/workflows/CI/badge.svg?branch=master&event=push)
 [![Join the chat at https://gitter.im/UdashFramework/udash-core](https://badges.gitter.im/UdashFramework/udash-core.svg)](https://gitter.im/UdashFramework/udash-core?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 How to use it?
