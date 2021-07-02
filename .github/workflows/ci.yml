@@ -30,4 +30,4 @@ jobs:
         with:
           java-version: 11
       - name: Run tests
-        run: sbt -Dfile.encoding=UTF8 g8Test
+        run: sbt g8Test
