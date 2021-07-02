@@ -1,5 +1,6 @@
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
+import org.scalajs.jsdependencies.sbtplugin.JSDependenciesPlugin.autoImport._
 import sbt._
 
 object Dependencies {
@@ -43,8 +44,6 @@ object Dependencies {
 
     // type-safe wrapper for Twitter Bootstrap
     "io.udash" %%% "udash-bootstrap4" % udashVersion,
-    // type-safe wrapper for Highcharts
-    "io.udash" %%% "udash-charts" % udashVersion,
     // type-safe wrapper for jQuery
     "io.udash" %%% "udash-jquery" % udashJQueryVersion,
   ))

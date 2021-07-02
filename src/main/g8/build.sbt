@@ -26,10 +26,10 @@ inThisBuild(Seq(
     "-language:implicitConversions",
     "-language:existentials",
     "-language:dynamics",
-    "-Xfuture",
     "-Xfatal-warnings",
-    "-Xlint:_,-missing-interpolator,-adapted-args",
+    "-Xlint:-unused,_",
     "-Ybackend-parallelism", "4",
+    "-Ypatmat-exhaust-depth", "80",
     "-Ycache-plugin-class-loader:last-modified",
     "-Ycache-macro-class-loader:last-modified",
     "-Xnon-strict-patmat-analysis",
@@ -72,11 +72,9 @@ val commonSettings = noPublishSettings ++ Seq(
 
 // Reusable settings for modules compiled to JS
 val commonJsSettings = commonSettings ++ Seq(
-  Compile / emitSourceMaps := true,
   Test / parallelExecution := false,
   Test / fork := false,
   Test / jsEnv := new SeleniumJSEnv(browserCapabilities),
-  scalacOptions += "-P:scalajs:sjsDefinedByDefault",
 )
 
 def sourceDirsSettings(baseMapper: File => File): Seq[Def.Setting[Seq[File]]] = {
@@ -117,7 +115,7 @@ def jvmProject(proj: Project): Project = {
 
 def jsProjectFor(jvmProj: Project, jsProj: Project): Project = {
   jsProj.in(jvmProj.base / "js")
-    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin)
     .configure(p => if (forIdeaImport) p.dependsOn(jvmProj) else p)
     .settings(
       commonJsSettings,
@@ -143,7 +141,7 @@ lazy val `shared-js` = jsProjectFor(shared, project)
 
 val frontendWebContent = "UdashStatics/WebContent"
 lazy val frontend = project.in(file("frontend"))
-  .enablePlugins(ScalaJSPlugin) // enables Scala.js plugin in this module
+  .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin) // enables Scala.js plugin in this module
   .dependsOn(`shared-js` % TestAndCompileDep)
   .settings(
     commonJsSettings,
