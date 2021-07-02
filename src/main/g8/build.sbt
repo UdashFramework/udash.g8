@@ -1,7 +1,10 @@
 import org.scalajs.jsenv.selenium.SeleniumJSEnv
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.chrome.ChromeOptions
+import sbt.Keys._
+import sbt._
 
+Global / excludeLintKeys ++= Set(ideBasePackages, ideOutputDirectory, ideSkipProject)
 Global / cancelable := true
 
 name := "$name;format="normalize"$"
@@ -29,6 +32,8 @@ inThisBuild(Seq(
     "-Ybackend-parallelism", "4",
     "-Ycache-plugin-class-loader:last-modified",
     "-Ycache-macro-class-loader:last-modified",
+    "-Xnon-strict-patmat-analysis",
+    "-Xlint:-strict-unsealed-patmat",
   ),
 ))
 
@@ -52,8 +57,8 @@ val browserCapabilities: Capabilities = {
 }
 
 val noPublishSettings = Seq(
-  skip in publish := true,
-  Compile / doc := (doc / target).value,
+  publish / skip := true,
+  Compile / packageDoc / mappings := Seq.empty,
 )
 
 // Reusable settings for all modules
@@ -99,6 +104,7 @@ lazy val root = project.in(file("."))
   .aggregate(`shared-js`, `shared`, frontend, backend, packager)
   .settings(
     noPublishSettings,
+    crossScalaVersions := Nil,
     Compile / run := (backend / Compile / run).evaluated,
   )
 
@@ -193,7 +199,7 @@ lazy val frontend = project.in(file("frontend"))
         frontendWebContent / "scripts" / "frontend-deps.js",
 
     // Workaround for source JS dependencies overwriting the minified ones - just use the latter all the time
-    skip in (Compile / packageJSDependencies) := true,
+    Compile / packageJSDependencies / skip := true,
     (Compile / fastOptJS) := (Compile / fastOptJS).dependsOn(Compile / packageMinifiedJSDependencies).value
   )
 

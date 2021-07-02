@@ -7,20 +7,20 @@ object Dependencies {
 
   // Udash
   val udashVersion = "$udash_version$"
-  val udashJQueryVersion = "3.0.1"
+  val udashJQueryVersion = "3.0.4"
 
   // Backend
-  val jettyVersion = "9.4.20.v20190813"
+  val jettyVersion = "9.4.40.v20210413"
   val logbackVersion = "1.2.3"
-  val typesafeConfigVersion = "1.4.0"
+  val typesafeConfigVersion = "1.4.1"
 
   // JS dependencies
   val bootstrapVersion = "4.1.3"
   val highchartsVersion = "5.0.14"
 
   // Testing
-  val scalatestVersion = "3.0.8"
-  val scalamockVersion = "4.1.0"
+  val scalatestVersion = "3.2.3"
+  val scalamockVersion = "5.1.0"
 
   // Dependencies for both frontend and backend
   // Those have to be cross-compilable
