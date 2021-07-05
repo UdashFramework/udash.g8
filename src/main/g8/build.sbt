@@ -29,7 +29,6 @@ inThisBuild(Seq(
     "-Xfatal-warnings",
     "-Xlint:-unused,_",
     "-Ybackend-parallelism", "4",
-    "-Ypatmat-exhaust-depth", "80",
     "-Ycache-plugin-class-loader:last-modified",
     "-Ycache-macro-class-loader:last-modified",
     "-Xnon-strict-patmat-analysis",
