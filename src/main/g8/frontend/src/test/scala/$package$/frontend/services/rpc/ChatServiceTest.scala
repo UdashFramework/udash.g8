@@ -4,9 +4,10 @@ import java.util.Date
 
 import $package$.shared.model.chat.ChatMessage
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ChatServiceTest extends WordSpec with Matchers with MockFactory {
+class ChatServiceTest extends AnyWordSpec with Matchers with MockFactory {
   "ChatService and NotificationsCenter" should {
     "notify about new messages" in {
       val notificationsCenter = new NotificationsCenter

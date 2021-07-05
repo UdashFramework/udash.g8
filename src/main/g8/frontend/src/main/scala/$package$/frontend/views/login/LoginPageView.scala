@@ -20,7 +20,7 @@ class LoginPageView(
   model: ModelProperty[LoginPageModel],
   presenter: LoginPagePresenter,
   translationsService: TranslationsService
-) extends FinalView with CssView {
+) extends View with CssView {
 
   import translationsService._
   import scalatags.JsDom.all._
@@ -37,7 +37,7 @@ class LoginPageView(
   ).render
 
   // infoIcon - translated popover
-  UdashPopover.i18n(content = _ => Translations.Auth.info, trigger = Seq(UdashPopover.Trigger.Hover))(infoIcon)
+  UdashPopover(content = span(translated(Translations.Auth.info())).render, trigger = Seq(UdashPopover.Trigger.Hover))(infoIcon)
 
   private def usernameInput(factory: FormElementsFactory) = {
     factory.input.formGroup(groupId = ComponentId("username"))(
@@ -60,11 +60,10 @@ class LoginPageView(
   }
 
   // Button from Udash Bootstrap wrapper
-  val buttonDisabled = Property(false)
   private val submitButton = UdashButton(
     buttonStyle = Color.Primary.toProperty,
     block = true.toProperty,
-    disabled = buttonDisabled,
+    disabled = model.subProp(_.username).combine(model.subProp(_.password))(_.isEmpty || _.isEmpty),
     componentId = ComponentId("login")
   )(nested => Seq[Modifier](nested(translatedDynamic(Translations.Auth.submitButton)(_.apply())), tpe := "submit"))
 
@@ -72,12 +71,6 @@ class LoginPageView(
   private val permissionsNotice = UdashAlert(Color.Info.toProperty)(nested =>
     nested(translatedDynamic(Translations.Auth.randomPermissionsInfo)(_.apply()))
   )
-
-  // disable button when data is invalid
-  model.valid.streamTo(buttonDisabled, initUpdate = true) {
-    case Valid => false
-    case _ => true
-  }
 
   def getTemplate: Modifier = div(
     LoginPageStyles.container,

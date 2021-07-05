@@ -5,13 +5,14 @@ import $package$.shared.rpc.client.MainClientRPC
 import $package$.shared.rpc.client.chat.ChatNotificationsRPC
 import io.udash.rpc.ClientId
 import org.scalamock.scalatest.AsyncMockFactory
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 class ChatServiceTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
   "ChatService" should {
     "save non empty messages and return list of collected messages" in {
       val clientMock = mock[RpcClientsService]
-      (clientMock.authenticatedClients _).expects().anyNumberOfTimes().returning(Map.empty)
+      (() => clientMock.authenticatedClients).expects().anyNumberOfTimes().returning(Map.empty)
       val service = new ChatService(clientMock)
 
       for {
@@ -43,7 +44,7 @@ class ChatServiceTest extends AsyncWordSpec with Matchers with AsyncMockFactory 
 
     "trim messages" in {
       val clientMock = mock[RpcClientsService]
-      (clientMock.authenticatedClients _).expects().anyNumberOfTimes().returning(Map.empty)
+      (() => clientMock.authenticatedClients).expects().anyNumberOfTimes().returning(Map.empty)
       val service = new ChatService(clientMock)
 
       for {
@@ -70,10 +71,10 @@ class ChatServiceTest extends AsyncWordSpec with Matchers with AsyncMockFactory 
       (chatRPC.newMessage _).expects(*).twice()
 
       val mainRPC = mock[MainClientRPC]
-      (mainRPC.chat _: () => ChatNotificationsRPC).expects().anyNumberOfTimes().returning(chatRPC)
+      (() => mainRPC.chat()).expects().anyNumberOfTimes().returning(chatRPC)
 
       val clientMock = mock[RpcClientsService]
-      (clientMock.authenticatedClients _).expects().anyNumberOfTimes().returning(Map(
+      (() => clientMock.authenticatedClients).expects().anyNumberOfTimes().returning(Map(
         ClientId("c1") -> UserContext(UserToken("t1"), "u1", Permission.values.map(_.id).toSet),
         ClientId("c2") -> UserContext(UserToken("t2"), "u2", Set(Permission.ChatRead.id)),
         ClientId("c3") -> UserContext(UserToken("t3"), "u3", Set.empty)

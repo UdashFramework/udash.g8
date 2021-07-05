@@ -12,7 +12,8 @@ import $package$.shared.rpc.server.secure.chat.ChatRPC
 import io.udash.properties.model.ModelProperty
 import io.udash.utils.Registration
 import org.scalamock.scalatest.AsyncMockFactory
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 import scala.concurrent.Future
 
@@ -25,7 +26,7 @@ class ChatPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
 
       val chatRpc = mock[ChatRPC]
       val userService = mock[UserContextService]
-      (userService.getCurrentContext _).expects().throwing(new SharedExceptions.UnauthorizedException)
+      (() => userService.getCurrentContext).expects().throwing(new SharedExceptions.UnauthorizedException)
 
       val model = ModelProperty(ChatModel(Seq.empty, "", 0))
       recoverToSucceededIf[SharedExceptions.UnauthorizedException](
@@ -46,12 +47,12 @@ class ChatPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       (notificationsCenter.onConnectionsCountChange _).expects(*).once()
 
       val chatRpc = mock[ChatRPC]
-      (chatRpc.latestMessages _: () => Future[Seq[ChatMessage]]).expects().once().returning(Future.successful(messages))
-      (chatRpc.connectedClientsCount _: () => Future[Int]).expects().once().returning(Future.successful(connectionsCount))
+      (() => chatRpc.latestMessages()).expects().once().returning(Future.successful(messages))
+      (() => chatRpc.connectedClientsCount()).expects().once().returning(Future.successful(connectionsCount))
 
       val userService = mock[UserContextService]
-      (userService.getCurrentContext _).expects().anyNumberOfTimes().returning(ctx)
-      (userService.currentContext _).expects().anyNumberOfTimes().returning(Some(ctx))
+      (() => userService.getCurrentContext).expects().anyNumberOfTimes().returning(ctx)
+      (() => userService.currentContext).expects().anyNumberOfTimes().returning(Some(ctx))
 
       val model = ModelProperty(ChatModel(Seq.empty, "", 0))
       val presenter = new ChatPresenter(model, chatRpc, userService, notificationsCenter)
@@ -73,11 +74,11 @@ class ChatPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       (notificationsCenter.onConnectionsCountChange _).expects(*).once()
 
       val chatRpc = mock[ChatRPC]
-      (chatRpc.connectedClientsCount _: () => Future[Int]).expects().once().returning(Future.successful(connectionsCount))
+      (() => chatRpc.connectedClientsCount()).expects().once().returning(Future.successful(connectionsCount))
 
       val userService = mock[UserContextService]
-      (userService.getCurrentContext _).expects().anyNumberOfTimes().returning(ctx)
-      (userService.currentContext _).expects().anyNumberOfTimes().returning(Some(ctx))
+      (() => userService.getCurrentContext).expects().anyNumberOfTimes().returning(ctx)
+      (() => userService.currentContext).expects().anyNumberOfTimes().returning(Some(ctx))
 
       val model = ModelProperty(ChatModel(Seq.empty, "", 0))
       val presenter = new ChatPresenter(model, chatRpc, userService, notificationsCenter)
@@ -103,7 +104,7 @@ class ChatPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       (notificationsCenter.onConnectionsCountChange _).expects(*).once().returning(new DummyRegistration)
       val chatRpc = mock[ChatRPC]
       val userService = mock[UserContextService]
-      (userService.getCurrentContext _).expects().returning(UserContext(UserToken("t1"), "u1", Set.empty))
+      (() => userService.getCurrentContext).expects().returning(UserContext(UserToken("t1"), "u1", Set.empty))
 
       val model = ModelProperty(ChatModel(Seq.empty, "", 0))
       val presenter = new ChatPresenter(model, chatRpc, userService, notificationsCenter)
@@ -120,7 +121,7 @@ class ChatPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
       val chatRpc = mock[ChatRPC]
       (chatRpc.sendMsg _).expects("Testtest").once()
       val userService = mock[UserContextService]
-      (userService.getCurrentContext _).expects().returning(UserContext(UserToken("t1"), "u1", Set.empty))
+      (() => userService.getCurrentContext).expects().returning(UserContext(UserToken("t1"), "u1", Set.empty))
 
       val model = ModelProperty(ChatModel(Seq.empty, "", 0))
       val presenter = new ChatPresenter(model, chatRpc, userService, notificationsCenter)

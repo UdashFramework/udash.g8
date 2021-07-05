@@ -13,7 +13,7 @@ class TranslationsService(rpc: RemoteTranslationRPC) {
   implicit val translationProvider: TranslationProvider =
     new RemoteTranslationProvider(rpc, Some(LocalStorage), 6 hours)
 
-  implicit val currentLangProperty: LangProperty =
+  implicit val currentLangProperty: Property[Lang] =
     Property(Lang(Translations.langs.head))
 
   def setLanguage(lang: Lang): Unit = {
