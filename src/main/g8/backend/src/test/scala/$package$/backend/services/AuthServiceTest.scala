@@ -5,7 +5,8 @@ import java.util.ArrayList
 import $package$.shared.model.SharedExceptions
 import $package$.shared.model.auth.UserToken
 import org.scalamock.scalatest.AsyncMockFactory
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 class AuthServiceTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
   "AuthService" should {

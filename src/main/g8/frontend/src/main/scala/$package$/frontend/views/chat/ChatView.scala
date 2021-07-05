@@ -16,7 +16,7 @@ import io.udash.css._
 import io.udash.i18n._
 
 class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, translationsService: TranslationsService)
-  extends FinalView with CssView {
+  extends View with CssView {
 
   import translationsService._
 
@@ -65,7 +65,7 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
   override def getTemplate: Modifier = div(
     UdashCard(componentId = ComponentId("chat-panel"))(factory => Seq(
       factory.header(nested => nested(produce(model.subProp(_.connectionsCount)) { count =>
-        span(translatedDynamic(Translations.Chat.connections)(_.apply(count))).render
+        span(translatedDynamic(Translations.Chat.connections)(_.apply(count)())).render
       })),
       factory.body(messagesWindow),
       factory.footer(nested => nested(msgForm))

@@ -9,7 +9,8 @@ import io.udash.Application
 import io.udash.i18n.TranslationKey
 import io.udash.properties.model.ModelProperty
 import org.scalamock.scalatest.AsyncMockFactory
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 import scala.concurrent.Future
 
@@ -19,7 +20,7 @@ class LoginPageTest extends AsyncWordSpec with Matchers with AsyncMockFactory {
   "LoginPage" should {
     "redirect to the chat view if user is already authenticated" in {
       val userService = mock[UserContextService]
-      (userService.currentContext _).expects().returning(Some(UserContext(UserToken("t1"), "name", Set.empty)))
+      (() => userService.currentContext).expects().returning(Some(UserContext(UserToken("t1"), "name", Set.empty)))
 
       val application = mock[MockableApplication]
       (application.goTo _).expects(ChatState, false).once()

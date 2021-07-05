@@ -2,9 +2,10 @@ package $package$.shared.model.auth
 
 import io.udash.auth.PermissionId
 import io.udash.auth.{Permission => UdashPermission}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class UserContextTest extends WordSpec with Matchers {
+class UserContextTest extends AnyWordSpec with Matchers {
   "UserContext" should {
     "verify user's permissions" in {
       class TestPerm(override val id: PermissionId) extends UdashPermission

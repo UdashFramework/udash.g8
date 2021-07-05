@@ -6,7 +6,8 @@ import org.scalamock.scalatest.AsyncMockFactory
 import $package$.shared.rpc.server.MainServerRPC
 import $package$.shared.rpc.server.open.AuthRPC
 import $package$.shared.rpc.server.secure.SecureRPC
-import org.scalatest.{AsyncWordSpec, Matchers}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AsyncWordSpec
 
 import scala.concurrent.Future
 
@@ -19,7 +20,7 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
       (authRpcMock.login _).expects(ctx.name, "p").once().returning(Future.successful(ctx))
 
       val rpcMock = mock[MainServerRPC]
-      (rpcMock.auth _: () => AuthRPC).expects().anyNumberOfTimes().returning(authRpcMock)
+      (() => rpcMock.auth()).expects().anyNumberOfTimes().returning(authRpcMock)
 
       val service: UserContextService = new UserContextService(rpcMock)
 
@@ -42,7 +43,7 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
       (authRpcMock.login _).expects(ctx.name, "p").once().returning(Future.successful(ctx))
 
       val rpcMock = mock[MainServerRPC]
-      (rpcMock.auth _: () => AuthRPC).expects().anyNumberOfTimes().returning(authRpcMock)
+      (() => rpcMock.auth()).expects().anyNumberOfTimes().returning(authRpcMock)
       (rpcMock.secure _).expects(ctx.token).once().returning(mock[SecureRPC])
 
       val service: UserContextService = new UserContextService(rpcMock)
@@ -63,7 +64,7 @@ class UserContextServiceTest extends AsyncWordSpec with Matchers with AsyncMockF
       (authRpcMock.login _).expects(ctx.name, "p").once().returning(Future.successful(ctx))
 
       val rpcMock = mock[MainServerRPC]
-      (rpcMock.auth _: () => AuthRPC).expects().anyNumberOfTimes().returning(authRpcMock)
+      (() => rpcMock.auth()).expects().anyNumberOfTimes().returning(authRpcMock)
       (rpcMock.secure _).expects(ctx.token).once().returning(mock[SecureRPC])
 
       val service: UserContextService = new UserContextService(rpcMock)

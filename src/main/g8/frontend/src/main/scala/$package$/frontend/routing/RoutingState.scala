@@ -7,10 +7,10 @@ sealed abstract class RoutingState(val parentState: Option[ContainerRoutingState
 }
 
 sealed abstract class ContainerRoutingState(parentState: Option[ContainerRoutingState])
-  extends RoutingState(parentState) with ContainerState
+  extends RoutingState(parentState)
 
 sealed abstract class FinalRoutingState(parentState: Option[ContainerRoutingState])
-  extends RoutingState(parentState) with FinalState
+  extends RoutingState(parentState)
 
 case object RootState extends ContainerRoutingState(None)
 case object LoginPageState extends FinalRoutingState(Some(RootState))

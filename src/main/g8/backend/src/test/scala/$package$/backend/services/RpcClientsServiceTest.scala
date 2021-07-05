@@ -5,16 +5,17 @@ import $package$.shared.rpc.client.MainClientRPC
 import $package$.shared.rpc.client.chat.ChatNotificationsRPC
 import io.udash.rpc.{ClientId, ClientRPCTarget}
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class RpcClientsServiceTest extends WordSpec with Matchers with MockFactory {
+class RpcClientsServiceTest extends AnyWordSpec with Matchers with MockFactory {
   "RpcClientsService" should {
     "return active and authenticated clients ids" in {
       val chatNotificationsRpc = mock[ChatNotificationsRPC]
       (chatNotificationsRpc.connectionsCountUpdate _).expects(*).anyNumberOfTimes()
 
       val clientRpc = mock[MainClientRPC]
-      ((clientRpc.chat _): () => ChatNotificationsRPC).expects().anyNumberOfTimes().returning(chatNotificationsRpc)
+      (() => clientRpc.chat()).expects().anyNumberOfTimes().returning(chatNotificationsRpc)
 
       val sendToClient = mockFunction[ClientRPCTarget, MainClientRPC]
       sendToClient.expects(*).anyNumberOfTimes().returning(clientRpc)

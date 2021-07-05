@@ -1,7 +1,10 @@
 import org.scalajs.jsenv.selenium.SeleniumJSEnv
 import org.openqa.selenium.Capabilities
 import org.openqa.selenium.chrome.ChromeOptions
+import sbt.Keys._
+import sbt._
 
+Global / excludeLintKeys ++= Set(ideBasePackages, ideOutputDirectory, ideSkipProject)
 Global / cancelable := true
 
 name := "$name;format="normalize"$"
@@ -23,12 +26,13 @@ inThisBuild(Seq(
     "-language:implicitConversions",
     "-language:existentials",
     "-language:dynamics",
-    "-Xfuture",
     "-Xfatal-warnings",
-    "-Xlint:_,-missing-interpolator,-adapted-args",
+    "-Xlint:-unused,_",
     "-Ybackend-parallelism", "4",
     "-Ycache-plugin-class-loader:last-modified",
     "-Ycache-macro-class-loader:last-modified",
+    "-Xnon-strict-patmat-analysis",
+    "-Xlint:-strict-unsealed-patmat",
   ),
 ))
 
@@ -52,8 +56,8 @@ val browserCapabilities: Capabilities = {
 }
 
 val noPublishSettings = Seq(
-  skip in publish := true,
-  Compile / doc := (doc / target).value,
+  publish / skip := true,
+  Compile / packageDoc / mappings := Seq.empty,
 )
 
 // Reusable settings for all modules
@@ -67,11 +71,9 @@ val commonSettings = noPublishSettings ++ Seq(
 
 // Reusable settings for modules compiled to JS
 val commonJsSettings = commonSettings ++ Seq(
-  Compile / emitSourceMaps := true,
   Test / parallelExecution := false,
   Test / fork := false,
   Test / jsEnv := new SeleniumJSEnv(browserCapabilities),
-  scalacOptions += "-P:scalajs:sjsDefinedByDefault",
 )
 
 def sourceDirsSettings(baseMapper: File => File): Seq[Def.Setting[Seq[File]]] = {
@@ -99,6 +101,7 @@ lazy val root = project.in(file("."))
   .aggregate(`shared-js`, `shared`, frontend, backend, packager)
   .settings(
     noPublishSettings,
+    crossScalaVersions := Nil,
     Compile / run := (backend / Compile / run).evaluated,
   )
 
@@ -111,7 +114,7 @@ def jvmProject(proj: Project): Project = {
 
 def jsProjectFor(jvmProj: Project, jsProj: Project): Project = {
   jsProj.in(jvmProj.base / "js")
-    .enablePlugins(ScalaJSPlugin)
+    .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin)
     .configure(p => if (forIdeaImport) p.dependsOn(jvmProj) else p)
     .settings(
       commonJsSettings,
@@ -137,7 +140,7 @@ lazy val `shared-js` = jsProjectFor(shared, project)
 
 val frontendWebContent = "UdashStatics/WebContent"
 lazy val frontend = project.in(file("frontend"))
-  .enablePlugins(ScalaJSPlugin) // enables Scala.js plugin in this module
+  .enablePlugins(ScalaJSPlugin, JSDependenciesPlugin) // enables Scala.js plugin in this module
   .dependsOn(`shared-js` % TestAndCompileDep)
   .settings(
     commonJsSettings,
@@ -193,7 +196,7 @@ lazy val frontend = project.in(file("frontend"))
         frontendWebContent / "scripts" / "frontend-deps.js",
 
     // Workaround for source JS dependencies overwriting the minified ones - just use the latter all the time
-    skip in (Compile / packageJSDependencies) := true,
+    Compile / packageJSDependencies / skip := true,
     (Compile / fastOptJS) := (Compile / fastOptJS).dependsOn(Compile / packageMinifiedJSDependencies).value
   )
 
