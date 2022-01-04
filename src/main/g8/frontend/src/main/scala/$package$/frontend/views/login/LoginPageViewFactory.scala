@@ -10,7 +10,11 @@ class LoginPageViewFactory(
   application: Application[RoutingState],
   translationsService: TranslationsService
 ) extends ViewFactory[LoginPageState.type] {
+$if(macrotask_executor.truthy)$
+  import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+$else$
   import scala.concurrent.ExecutionContext.Implicits.global
+$endif$
 
   override def create(): (View, Presenter[LoginPageState.type]) = {
     // Main model of the view

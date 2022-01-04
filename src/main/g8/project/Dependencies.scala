@@ -8,20 +8,23 @@ object Dependencies {
 
   // Udash
   val udashVersion = "$udash_version$"
-  val udashJQueryVersion = "3.0.4"
+  val udashJQueryVersion = "3.2.0"
 
   // Backend
-  val jettyVersion = "9.4.40.v20210413"
-  val logbackVersion = "1.2.3"
+  val jettyVersion = "9.4.44.v20210927"
+  val logbackVersion = "1.2.10"
   val typesafeConfigVersion = "1.4.1"
 
   // JS dependencies
+$if(macrotask_executor.truthy)$
+  val macrotaskExecutorVersion = "1.0.0"
+$endif$
   val bootstrapVersion = "4.1.3"
   val highchartsVersion = "5.0.14"
 
   // Testing
-  val scalatestVersion = "3.2.3"
-  val scalamockVersion = "5.1.0"
+  val scalatestVersion = "3.2.10"
+  val scalamockVersion = "5.2.0"
 
   // Dependencies for both frontend and backend
   // Those have to be cross-compilable
@@ -36,6 +39,10 @@ object Dependencies {
 
   // Dependencies compiled to JavaScript code
   val frontendDeps = Def.setting(Seq(
+$if(macrotask_executor.truthy)$
+    "org.scala-js" %%% "scala-js-macrotask-executor" % macrotaskExecutorVersion,
+$endif$
+
     "io.udash" %%% "udash-core" % udashVersion,
     "io.udash" %%% "udash-rpc" % udashVersion,
     "io.udash" %%% "udash-i18n" % udashVersion,

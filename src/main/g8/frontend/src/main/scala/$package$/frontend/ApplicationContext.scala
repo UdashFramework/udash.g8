@@ -10,7 +10,11 @@ import io.udash._
 import io.udash.rpc._
 
 object ApplicationContext {
+$if(macrotask_executor.truthy)$
+  import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+$else$
   import scala.concurrent.ExecutionContext.Implicits.global
+$endif$
 
   private val routingRegistry = new RoutingRegistryDef
   private val viewFactoryRegistry = new StatesToViewFactoryDef

@@ -74,6 +74,9 @@ val commonJsSettings = commonSettings ++ Seq(
   Test / parallelExecution := false,
   Test / fork := false,
   Test / jsEnv := new SeleniumJSEnv(browserCapabilities),
+$if(!macrotask_executor.truthy)$
+  scalacOptions += "-P:scalajs:nowarnGlobalExecutionContext",
+$endif$
 )
 
 def sourceDirsSettings(baseMapper: File => File): Seq[Def.Setting[Seq[File]]] = {

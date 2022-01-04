@@ -11,7 +11,11 @@ class ChatViewFactory(
   translationsService: TranslationsService,
   notificationsCenter: NotificationsCenter
 ) extends ViewFactory[ChatState.type] {
+$if(macrotask_executor.truthy)$
+  import org.scalajs.macrotaskexecutor.MacrotaskExecutor.Implicits._
+$else$
   import scala.concurrent.ExecutionContext.Implicits.global
+$endif$
 
   override def create(): (View, Presenter[ChatState.type]) = {
     val model = ModelProperty[ChatModel](ChatModel(Seq.empty, "", 0))
