@@ -5,7 +5,7 @@ import $package$.shared.css.ChatStyles
 import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bindings.modifiers.Binding
-import io.udash.bootstrap.button.UdashButton
+import io.udash.bootstrap.button.{UdashButton, UdashButtonOptions}
 import io.udash.bootstrap.card.UdashCard
 import io.udash.bootstrap.form.UdashForm.FormEvent
 import io.udash.bootstrap.form.{UdashForm, UdashInputGroup}
@@ -42,8 +42,11 @@ class ChatView(model: ModelProperty[ChatModel], presenter: ChatPresenter, transl
 
   // Button from Udash Bootstrap wrapper
   private val submitButton = UdashButton(
-    buttonStyle = Color.Primary.toProperty,
-    block = true.toProperty, componentId = ComponentId("send")
+    componentId = ComponentId("send"),
+    options = UdashButtonOptions(
+      color = Color.Primary.opt,
+      block = true,
+    ),
   )(_ => Seq(span(FontAwesome.Solid.paperPlane), tpe := "submit"))
 
   private val msgForm = UdashForm(

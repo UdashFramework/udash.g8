@@ -11,25 +11,23 @@ object Dependencies {
   val udashJQueryVersion = "3.2.0"
 
   // Backend
-  val jettyVersion = "9.4.44.v20210927"
-  val logbackVersion = "1.2.10"
-  val typesafeConfigVersion = "1.4.1"
+  val jettyVersion = "9.4.51.v20230217"
+  val logbackVersion = "1.3.5"
+  val typesafeConfigVersion = "1.4.2"
 
   // JS dependencies
 $if(macrotask_executor.truthy)$
-  val macrotaskExecutorVersion = "1.0.0"
+  val macrotaskExecutorVersion = "1.1.1"
 $endif$
   val bootstrapVersion = "4.1.3"
-  val highchartsVersion = "5.0.14"
 
   // Testing
-  val scalatestVersion = "3.2.10"
+  val scalatestVersion = "3.2.15"
   val scalamockVersion = "5.2.0"
 
   // Dependencies for both frontend and backend
   // Those have to be cross-compilable
   val crossDeps = Def.setting(Seq(
-    "io.udash" %%% "udash-core" % udashVersion,
     "io.udash" %%% "udash-rpc" % udashVersion,
     "io.udash" %%% "udash-rest" % udashVersion,
     "io.udash" %%% "udash-i18n" % udashVersion,
@@ -43,7 +41,6 @@ $if(macrotask_executor.truthy)$
     "org.scala-js" %%% "scala-js-macrotask-executor" % macrotaskExecutorVersion,
 $endif$
 
-    "io.udash" %%% "udash-core" % udashVersion,
     "io.udash" %%% "udash-rpc" % udashVersion,
     "io.udash" %%% "udash-i18n" % udashVersion,
     "io.udash" %%% "udash-css" % udashVersion,
@@ -61,22 +58,6 @@ $endif$
     // "jquery.js" is provided by "udash-jquery" dependency
     "org.webjars" % "bootstrap" % bootstrapVersion / "js/bootstrap.bundle.js"
       minified "js/bootstrap.bundle.min.js" dependsOn "jquery.js",
-
-    // Highcharts JS files
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/highcharts.src.js" minified s"\$highchartsVersion/highcharts.js" dependsOn "jquery.js",
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/highcharts-3d.src.js" minified s"\$highchartsVersion/highcharts-3d.js" dependsOn s"\$highchartsVersion/highcharts.src.js",
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/highcharts-more.src.js" minified s"\$highchartsVersion/highcharts-more.js" dependsOn s"\$highchartsVersion/highcharts.src.js",
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/modules/exporting.src.js" minified s"\$highchartsVersion/modules/exporting.js" dependsOn s"\$highchartsVersion/highcharts.src.js",
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/modules/drilldown.src.js" minified s"\$highchartsVersion/modules/drilldown.js" dependsOn s"\$highchartsVersion/highcharts.src.js",
-    "org.webjars" % "highcharts" % highchartsVersion /
-      s"\$highchartsVersion/modules/heatmap.src.js" minified s"\$highchartsVersion/modules/heatmap.js" dependsOn s"\$highchartsVersion/highcharts.src.js",
-
-
   ))
 
   // Dependencies for JVM part of code
