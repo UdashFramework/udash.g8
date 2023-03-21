@@ -5,7 +5,7 @@ import $package$.shared.css.LoginPageStyles
 import $package$.shared.i18n.Translations
 import io.udash._
 import io.udash.bootstrap.alert.UdashAlert
-import io.udash.bootstrap.button.UdashButton
+import io.udash.bootstrap.button.{UdashButton, UdashButtonOptions}
 import io.udash.bootstrap.form.UdashForm.FormEvent
 import io.udash.bootstrap.form.{FormElementsFactory, UdashForm}
 import io.udash.bootstrap.tooltip.UdashPopover
@@ -41,9 +41,9 @@ class LoginPageView(
 
   private def usernameInput(factory: FormElementsFactory) = {
     factory.input.formGroup(groupId = ComponentId("username"))(
-      nested => factory.input.textInput(model.subProp(_.username))(Some(nested =>
+      nested => nested(factory.input.textInput(model.subProp(_.username))(Some(nested =>
         nested(translatedAttrDynamic(Translations.Auth.usernameFieldPlaceholder, "placeholder")(_.apply())))
-      ).setup(nested).render,
+      )).render,
       labelContent = Some(nested => Seq[Modifier](
         nested(translatedDynamic(Translations.Auth.usernameFieldLabel)(_.apply())), " ", infoIcon
       ))
@@ -52,19 +52,21 @@ class LoginPageView(
 
   private def passwordInput(factory: FormElementsFactory) = {
     factory.input.formGroup(groupId = ComponentId("password"))(
-      nested => factory.input.passwordInput(model.subProp(_.password))(Some(nested =>
+      nested => nested(factory.input.passwordInput(model.subProp(_.password))(Some(nested =>
         nested(translatedAttrDynamic(Translations.Auth.passwordFieldPlaceholder, "placeholder")(_.apply()))
-      )).setup(nested).render,
+      ))).render,
       labelContent = Some(nested => nested(translatedDynamic(Translations.Auth.passwordFieldLabel)(_.apply())))
     )
   }
 
   // Button from Udash Bootstrap wrapper
   private val submitButton = UdashButton(
-    buttonStyle = Color.Primary.toProperty,
-    block = true.toProperty,
+    componentId = ComponentId("login"),
     disabled = model.subProp(_.username).combine(model.subProp(_.password))(_.isEmpty || _.isEmpty),
-    componentId = ComponentId("login")
+    options = UdashButtonOptions(
+      color = Color.Primary.opt,
+      block = true,
+    ),
   )(nested => Seq[Modifier](nested(translatedDynamic(Translations.Auth.submitButton)(_.apply())), tpe := "submit"))
 
   // Random permissions notice
